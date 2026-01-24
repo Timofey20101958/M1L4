@@ -88,8 +88,8 @@ class Pokemon:
     def level_up(self):
         self.level += 1
         # Увеличиваем здоровье при повышении уровня
-        self.health += 10
-        return f"{self.name} повысил уровень до {self.level}! Здоровье увеличено до {self.health}"
+        self.hp += 10
+        return f"{self.name} повысил уровень до {self.level}! Здоровье увеличено до {self.hp}"
         
     def attack(self, enemy):
         if isinstance(enemy, Wizard): # Проверка на то, что enemy является типом данных Wizard (является экземпляром класса Волшебник)
