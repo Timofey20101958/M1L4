@@ -3,7 +3,7 @@ from config import token
 from random import randint
 from logic import Pokemon
 from logic import Wizard, Fighter
-from logic import information
+
 
 bot = telebot.TeleBot(token) 
 
@@ -31,14 +31,23 @@ def start(message):
     else:
         bot.reply_to(message, "Ты уже создал себе покемона")
 
+# @bot.message_handler(commands=['feed'])
+# def feed(message):
+#     if message.from_user.username in Pokemon.pokemons.keys():
+#         pokemon = Pokemon.pokemons[message.from_user.username]
+#         result = pokemon.feed()
+#         bot.send_message(message.chat.id, result)
+#     else:
+#         bot.reply_to(message, "Сначала создай покемона с помощью команды /go")
+
 @bot.message_handler(commands=['feed'])
-def feed(message):
+def feed_pok(message):
     if message.from_user.username in Pokemon.pokemons.keys():
-        pokemon = Pokemon.pokemons[message.from_user.username]
-        result = pokemon.feed()
-        bot.send_message(message.chat.id, result)
+        pok = Pokemon.pokemons[message.from_user.username]
+        res = pok.feed()
+        bot.send_message(message.chat.id, res)
     else:
-        bot.reply_to(message, "Сначала создай покемона с помощью команды /go")
+        bot.send_message(message.chat.id, "Нельзя кормить покемона, которого нет")
 
 @bot.message_handler(commands=['attack'])
 def attack_pok(message):
