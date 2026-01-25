@@ -66,13 +66,13 @@ class Pokemon:
             
 
     # Метод класса для получения информации
-    def info(self):
-        return f"Имя твоего покеомона: {self.name}"
+    # def info(self):
+    #     return f"Имя твоего покеомона: {self.name}"
 
     # Метод класса для получения картинки покемона
     def show_img(self):
         return self.img
-
+        
     def feed(self):
         self.feed_count += 1
         self.exp += 10  # Добавляем опыт за каждое кормление
@@ -82,7 +82,7 @@ class Pokemon:
         if self.feed_count % 5 == 0:
             level_up_message = "\n" + self.level_up()
             
-        return f"Ты покормил {self.name}! Это {self.feed_count} раз. Опыт: {self.exp}" + level_up_message
+        return f"Ты покормил {self.name} {self.feed_count} раз. Опыт: {self.exp}" + level_up_message
         
     # Метод для повышения уровня
     def level_up(self):
@@ -106,8 +106,10 @@ class Pokemon:
     # def get_full_info(self):
     #     return f"Имя: {self.name}\nУровень: {self.level}\nЗдоровье: {self.health}\nОпыт: {self.exp}\nПокормили раз: {self.feed_count}"
 
-    def info(self):
-        return f"Твоего покемона завут: {self.name}, у него {self.hp} здаровья и его сила {self.power}."
+    # def info(self):
+    #     return f"Твоего покемона завут: {self.name}, у него {self.hp} здаровья и его сила {self.power}."
+
+
 
 class Wizard(Pokemon):
     pass
