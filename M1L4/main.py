@@ -3,6 +3,7 @@ from config import token
 from random import randint
 from logic import Pokemon
 from logic import Wizard, Fighter
+from logic import information
 
 bot = telebot.TeleBot(token) 
 
@@ -51,6 +52,25 @@ def attack_pok(message):
             bot.send_message(message.chat.id, "Сражаться можно только с покемонами")
     else:
         bot.send_message(message.chat.id, "Чтобы атаковать, нужно ответить на сообщения того, кого хочешь атаковать")
+
+@bot.message_handler(commands=['info'])
+def handle_info(message):
+    if message.from_user.username in Pokemon.pokemons.keys():
+        pok = Pokemon.pokemons[message.from_user.username]
+        
+        info_text = (
+            f"🧬 Информация о вашем покемоне:\n\n"
+            f"Имя: {pok.name}\n"
+            f"Уровень: {pok.level}\n"
+            f"Здоровье: {pok.hp}\n"
+            f"Атака: {pok.power}\n"
+        )
+        bot.send_message(message.chat.id, info_text)
+    else:
+        bot.send_message(
+            message.chat.id,
+            "У вас пока нет покемона! Используйте /go, чтобы поймать своего первого покемона."
+        )
 
 bot.infinity_polling(none_stop=True)
 
