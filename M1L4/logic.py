@@ -1,5 +1,6 @@
 from random import randint
 import requests
+from datetime import datetime, timedelta
 
 class Pokemon:
     pokemons = {}
@@ -13,8 +14,9 @@ class Pokemon:
         self.img = self.get_img()
         self.name = self.get_name()
         self.level = randint(1, 10)       # Начальный уровень покемона от 1 до 10
-        self.feed_count = 0           # Счетчик кормлений
+        #self.feed_count = 0           # Счетчик кормлений
         self.exp = 0                  # Очки опыта
+        self.last_feed_time
 
         self.hp = randint(70, 150)
         self.power = randint(15, 45)
@@ -73,9 +75,9 @@ class Pokemon:
     def show_img(self):
         return self.img
         
-    def feed(self):
-        self.feed_count += 1
-        self.exp += 10  # Добавляем опыт за каждое кормление
+    # def feed(self):
+    #     self.feed_count += 1
+    #     self.exp += 10  # Добавляем опыт за каждое кормление
         
         # Проверяем, пора ли повышать уровень (каждые 5 кормлений)
         level_up_message = ""
@@ -102,9 +104,20 @@ class Pokemon:
         else:
             enemy.hp = 0
             return f"Победа @{self.pokemon_trainer} над @{enemy.pokemon_trainer}! "
+
+    def feed(self, feed_interval = 20, hp_increase = 10 ):
+        current_time = datetime.now()  
+        delta_time = timedelte(seconds=feed_interval)  
+        if (current_time - self.last_feed_time) > delta_time:
+            self.hp += hp_increase
+            self.last_feed_time = current_time
+            return f"Здоровье покемона увеличено. Текущее здоровье: {self.hp}"
+        else:
+            return f"Следующее время кормления покемона: {current_time-delta_time}"
+    
     # Метод для получения всей информации о покемоне
-    # def get_full_info(self):
-    #     return f"Имя: {self.name}\nУровень: {self.level}\nЗдоровье: {self.health}\nОпыт: {self.exp}\nПокормили раз: {self.feed_count}"
+    def get_full_info(self):
+        return f"Имя: {self.name}\nУровень: {self.level}\nЗдоровье: {self.health}\nОпыт: {self.exp}\nПокормили раз: {self.feed_count}"
 
     # def info(self):
     #     return f"Твоего покемона завут: {self.name}, у него {self.hp} здаровья и его сила {self.power}."
@@ -112,9 +125,12 @@ class Pokemon:
 
 
 class Wizard(Pokemon):
-    pass
+    def feed(self):
+        return super().feed(hp_increase=20)
 
 class Fighter(Pokemon):
+    def feed(self):
+        return super().feed(feed_interval=10)
     def attack(self, enemy):
         super_power = randint(5,15)
         self.power += super_power
