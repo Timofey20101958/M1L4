@@ -31,6 +31,20 @@ def start(message):
     else:
         bot.reply_to(message, "Ты уже создал себе покемона")
 
+    pokemon_count = get_pokemon_count(username)
+    if pokemon_count >= 3:
+        bot.reply_to(message, "У тебя уже есть 3 покемона! Используй /pokemons для просмотра.")
+        return
+    pokemon_number = None
+    if len(message.text.split()) > 1:
+        try:
+            pokemon_number = int(message.text.split()[1])
+            if pokemon_number < 1 or pokemon_number > 150:
+                bot.reply_to(message, "Выбери номер покемона от 1 до 150!")
+                return
+        except ValueError:
+            bot.reply_to(message, "Используй: /go <номер>")
+
 # @bot.message_handler(commands=['feed'])
 # def feed(message):
 #     if message.from_user.username in Pokemon.pokemons.keys():
