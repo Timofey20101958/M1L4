@@ -23,6 +23,14 @@ class Pokemon:
 
         Pokemon.pokemons[pokemon_trainer] = self
 
+    def get_current_pokemon(username):
+        if username not in Pokemon.pokemons or len(Pokemon.pokemons[username]) == 0:
+            return None
+        index = Pokemon.current_pokemon.get(username, 0)
+        if index >= len(Pokemon.pokemons[username]):
+            index = 0
+            Pokemon.current_pokemon[username] = 0
+
     # Метод для получения картинки покемона через API
     def get_id(self):
         url = f'https://pokeapi.co/api/v2/pokemon/{self.pokemon_number}'
@@ -105,11 +113,12 @@ class Pokemon:
             enemy.hp = 0
             return f"Победа @{self.pokemon_trainer} над @{enemy.pokemon_trainer}! "
 
-    def feed(self, feed_interval = 20, hp_increase = 10 ):
+    def feed(self, feed_interval = 20, hp_increase = 10, power_increase = 5):
         current_time = datetime.now()  
         delta_time = timedelte(seconds=feed_interval)  
         if (current_time - self.last_feed_time) > delta_time:
             self.hp += hp_increase
+            self.power += power_increase
             self.last_feed_time = current_time
             return f"Здоровье покемона увеличено. Текущее здоровье: {self.hp}"
         else:
